@@ -20,3 +20,27 @@ static NSString *MainTableIdentifier = @"MainTableIdentifier";
     }
 Note :- Cell is Maintableviewcell
 
+
+Json Call:-
+
+ NSString *path= [[NSBundle mainBundle] pathForResource:@"New Data" ofType:@"json"];
+    
+    NSData *data = [[NSData alloc]initWithContentsOfFile:path];
+    NSDictionary *dicjson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+   // NSLog(@"%@",dicjson);
+    NSArray *arrydata=[[NSArray alloc]initWithObjects:[dicjson valueForKey:@"results"], nil];
+    NSString *datasrring=[[NSString alloc]initWithFormat:@"%@",[[[arrydata firstObject]objectAtIndex:1]objectForKey:@"id"] ];
+    
+Another Way ====>
+
+ NSString *apiURL = @"http://180.211.99.162/jt/kinjal/mobileappdemoapi/callme.php?api=datalisting&lastid=0&limit=11";
+    NSURL *url = [NSURL URLWithString:apiURL];
+    
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data,NSError *connectionError){
+        
+        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
+
