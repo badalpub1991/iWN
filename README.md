@@ -10,7 +10,8 @@ CustomCell:-
 4) Import customcell file in mainview controller.
 5) Go to main view controller and register cell into viewdidload or regiser cell from xib in Datasource method. 
 6) 
-      static NSString *MainTableIdentifier = @"MainTableIdentifier";
+
+          static NSString *MainTableIdentifier = @"MainTableIdentifier";
          cell = [tableView dequeueReusableCellWithIdentifier:MainTableIdentifier];
    
     if (cell == nil)
@@ -36,11 +37,11 @@ Another Way ====>
      NSString *apiURL = @"http://180.211.99.162/jt/kinjal/mobileappdemoapi/callme.php?api=datalisting&lastid=0&limit=11";
     NSURL *url = [NSURL URLWithString:apiURL];
     
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+      NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
     
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse  *response, NSData *data,NSError *connectionError){
+      [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse  *response, NSData *data,NSError *connectionError){
         
-        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+          NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
-        arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
+         arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
 
