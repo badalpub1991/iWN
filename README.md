@@ -16,20 +16,19 @@ CustomCell:-
 
 6) 
 
-          static NSString *MainTableIdentifier = @"MainTableIdentifier";
-         cell = [tableView dequeueReusableCellWithIdentifier:MainTableIdentifier];
-        if (cell == nil)
-       {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainViewTableViewCell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
-      }
+    static NSString *MainTableIdentifier = @"MainTableIdentifier";
+    cell = [tableView dequeueReusableCellWithIdentifier:MainTableIdentifier];
+    if (cell == nil)
+     {
+       NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainViewTableViewCell" owner:self options:nil];
+       cell = [nib objectAtIndex:0];
+     }
     Note :- Cell is Maintableviewcell
 
 
 Json Call:-
 
-     NSString *path= [[NSBundle mainBundle] pathForResource:@"New Data" ofType:@"json"];
-    
+    NSString *path= [[NSBundle mainBundle] pathForResource:@"New Data" ofType:@"json"];
      NSData *data = [[NSData alloc]initWithContentsOfFile:path];
      NSDictionary *dicjson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     // NSLog(@"%@",dicjson);
@@ -38,14 +37,11 @@ Json Call:-
     
 Another Way ====>
 
-     NSString *apiURL = @"http://180.211.99.162/jt/kinjal/mobileappdemoapi/callme.php?api=datalisting&lastid=0&limit=11";
+    NSString *apiURL = @"http://180.211.99.162/jt/kinjal/mobileappdemoapi/callme.php?api=datalisting&lastid=0&limit=11";
     NSURL *url = [NSURL URLWithString:apiURL];
-    
-      NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
-    
-      [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse  *response, NSData *data,NSError *connectionError){
-        
-          NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        
-         arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
+    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse  *response, NSData *data,NSError *connectionError){
+    //Get Data in Dictionary
+    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
 
