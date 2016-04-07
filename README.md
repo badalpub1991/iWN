@@ -45,4 +45,60 @@ Another Way ====>
     //Get Data in Dictionary
     NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
+    
+    
+UIPickerview in Alertview ==> IOS 8.0 and Above
+
+    //In .h file 
+    @interface AddDetailViewController : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate
+    //In .m file open pickerview on Buttonclick
+    - (IBAction)btnCategory:(UIButton *)sender {
+    [_txtTitle resignFirstResponder];
+    [_txtPrice resignFirstResponder];
+    //Declare Alertview
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Select category" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    //Declare pickerview
+    UIPickerView * pickerView = [[UIPickerView alloc] init];
+    [pickerView setDataSource: self];
+    [pickerView setDelegate: self];
+    pickerView.tag=1; //If Required
+    [pickerView setFrame: CGRectMake(alert.frame.origin.x, alert.frame.origin.y, alert.frame.size.width, alert.frame.size.height)];
+    pickerView.showsSelectionIndicator = YES;
+    [pickerView selectRow:2 inComponent:0 animated:YES];
+    [alert addSubview:pickerView];
+    [alert setValue:pickerView forKey:@"accessoryView"];
+    [alert show];
+    }
+    #pragma mark --> UIPickeriew Delegate
+    -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1; //Component in pickerview
+    }
+    // Total rows in our component.
+    -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+     if (pickerView.tag==1) {
+        return [categoryArray count];
+    }
+    else
+        return [SubcategoryArray count];
+    }
+    // Display each row's data.
+    -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    if (pickerView.tag==1) {
+        return [categoryArray objectAtIndex: row];
+    }
+    else
+        return [SubcategoryArray objectAtIndex:row];
+    }
+    // Do something with the selected row.
+    -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    if (pickerView.tag==1) {
+        _txtCategory.text=[categoryArray objectAtIndex:row];
+    }
+    else
+        _txtSubcategory.text=[SubcategoryArray objectAtIndex:row];
+    }
+
+
+
+
 
