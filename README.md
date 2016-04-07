@@ -14,22 +14,23 @@ CustomCell:-
 
 5) Go to main view controller and register cell into viewdidload or regiser cell from xib in Datasource method. 
 
-6) 
+6)    //Create custom cell
 
     static NSString *MainTableIdentifier = @"MainTableIdentifier";
     cell = [tableView dequeueReusableCellWithIdentifier:MainTableIdentifier];
     if (cell == nil)
-     {
+    {
        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainViewTableViewCell" owner:self options:nil];
        cell = [nib objectAtIndex:0];
-     }
-    Note :- Cell is Maintableviewcell
+    }
+    Note :- Cell is Maintableviewcell //Custom cell
 
 
 Json Call:-
 
     NSString *path= [[NSBundle mainBundle] pathForResource:@"New Data" ofType:@"json"];
      NSData *data = [[NSData alloc]initWithContentsOfFile:path];
+     //Get data in Dictionary
      NSDictionary *dicjson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     // NSLog(@"%@",dicjson);
      NSArray *arrydata=[[NSArray alloc]initWithObjects:[dicjson valueForKey:@"results"], nil];
