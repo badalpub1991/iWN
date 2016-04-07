@@ -49,15 +49,15 @@ Another Way ====>
     
 UIPickerview in Alertview ==> IOS 8.0 and Above
 
-    //In .h file 
+==>    //In .h file 
     @interface AddDetailViewController : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate
-    //In .m file open pickerview on Buttonclick
-    - (IBAction)btnCategory:(UIButton *)sender {
+==>    //In .m file open pickerview on Buttonclick
+     - (IBAction)btnCategory:(UIButton *)sender {
     [_txtTitle resignFirstResponder];
     [_txtPrice resignFirstResponder];
     //Declare Alertview
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Select category" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    //Declare pickerview
+   //Declare pickerview
     UIPickerView * pickerView = [[UIPickerView alloc] init];
     [pickerView setDataSource: self];
     [pickerView setDelegate: self];
@@ -69,7 +69,7 @@ UIPickerview in Alertview ==> IOS 8.0 and Above
     [alert setValue:pickerView forKey:@"accessoryView"];
     [alert show];
     }
-    #pragma mark --> UIPickeriew Delegate
+==>    #pragma mark --> UIPickeriew Delegate
     -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1; //Component in pickerview
     }
