@@ -1,6 +1,23 @@
 # iWN
-iWN
 http://s000.tinyupload.com/index.php?file_id=09244370693754424466
+
+# AppDelegate SharedInstant
+
+==>    *//In .h file* 
+```
++ (AppDelegate *)mainDeleagte;
+```
+
+==>    *//In .m file* 
+``` 
++ (AppDelegate *)mainDeleagte{
+    return [UIApplication sharedApplication].delegate;
+}
+```
+
+
+
+
 
 # CustomCell for UITableview:-
 
