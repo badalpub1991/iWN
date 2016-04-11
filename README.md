@@ -16,54 +16,50 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
 
 6)    //Create custom cell
 ```
-    static NSString *MainTableIdentifier = @"MainTableIdentifier";
-    cell = [tableView dequeueReusableCellWithIdentifier:MainTableIdentifier];
-    if (cell == nil)
-    {
-       NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainViewTableViewCell" owner:self options:nil];
-       cell = [nib objectAtIndex:0];
-    }
+static NSString *MainTableIdentifier = @"MainTableIdentifier";
+cell = [tableView dequeueReusableCellWithIdentifier:MainTableIdentifier];
+if (cell == nil)
+{
+ NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainViewTableViewCell" owner:self options:nil];
+ cell = [nib objectAtIndex:0];
+
     Note :- Cell is Maintableviewcell //Custom cell
 ```
 
 # Json Call:-(GET)
 ```
-    NSString *path= [[NSBundle mainBundle] pathForResource:@"New Data" ofType:@"json"];
-     NSData *data = [[NSData alloc]initWithContentsOfFile:path];
+NSString *path= [[NSBundle mainBundle] pathForResource:@"New Data" ofType:@"json"];
+NSData *data = [[NSData alloc]initWithContentsOfFile:path];
      //Get data in Dictionary
-     NSDictionary *dicjson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+NSDictionary *dicjson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     // NSLog(@"%@",dicjson);
-     NSArray *arrydata=[[NSArray alloc]initWithObjects:[dicjson valueForKey:@"results"], nil];
-     NSString *datasrring=[[NSString alloc]initWithFormat:@"%@",[[[arrydata firstObject]objectAtIndex:1]objectForKey:@"id"]     ];
+NSArray *arrydata=[[NSArray alloc]initWithObjects:[dicjson valueForKey:@"results"], nil];
+NSString *datasrring=[[NSString alloc]initWithFormat:@"%@",[[[arrydata firstObject]objectAtIndex:1]objectForKey:@"id"]];
 ```    
 **Another Way ====>**
 ```
-    NSString *apiURL = @"http://180.211.99.162/jt/kinjal/mobileappdemoapi/callme.php?api=datalisting&lastid=0&limit=11";
-    NSURL *url = [NSURL URLWithString:apiURL];
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse  *response, NSData *data,NSError *connectionError){
+NSString *apiURL = @"http://180.211.99.162/jt/kinjal/mobileappdemoapi/callme.php?api=datalisting&lastid=0&limit=11";
+NSURL *url = [NSURL URLWithString:apiURL];
+NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
+[NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse  *response, NSData *data,NSError *connectionError){
     //Get Data in Dictionary
-    NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
 ```    
     
 # Json Call:- (POST)   
 ```
-    -(void)btnreplaycommonmethod
-    {
-     if   ([_txtAnswerStory.text isEqualToString:@""] )    { //if Text Field is Empty Validation measure
-        
+-(void)btnreplaycommonmethod
+{
+ if   ([_txtAnswerStory.text isEqualToString:@""] )    { //if Text Field is Empty Validation measure
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
         // Configure for text only and offset down
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"Fill answer";
         hud.margin = 10.f;
         hud.yOffset = 150.f;
         hud.removeFromSuperViewOnHide = YES;
-        
         [hud hide:YES afterDelay:1];
-        
     }
     else //If textfield have Text then Post Request --
     {
@@ -74,28 +70,21 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
         hudobj.mode =MBProgressHUDModeIndeterminate;
         [self.view addSubview:hudobj];
         [hudobj show:YES];
-        
         NSString *url = [kPredefinedURL stringByAppendingPathComponent:kAnswerStory]; //Joint string and made url 
         NSString *body = [NSString stringWithFormat:@"answer=%@&your_fb_id=%@&your_fbname=%@&story_id=%@&post_user_fb_id=%@&noti_id=%@",self.txtAnswerStory.text,_objappDelegate.FbId,_objappDelegate.FbName,StoryId,post_user_fb_id,Notificationid]; //Parameter for Post
-        
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];//Pass Whole URL
         [request setHTTPMethod:@"POST"]; //Service Name
         [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
-        
         [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
             if (data.length > 0) { //<--If datalength is not 0
                 [hudobj hide:YES];
                 [hudobj removeFromSuperViewOnHide];
                 NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
                 if ([dict[@"status"] integerValue] == 1) { //<-- get status 1 if data post successfully
-                    
-                    
                     UIAlertController * alert=   [UIAlertController
                                                   alertControllerWithTitle:@"Success"
                                                   message:@"Thank You"
                                                   preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    
                     UIAlertAction* yesButton = [UIAlertAction
                                                 actionWithTitle:@"Ok"
                                                 style:UIAlertActionStyleDefault
@@ -116,9 +105,7 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
                                                     
                                                 }];
                     
-                    
                     [alert addAction:yesButton];
-                    
                     [self presentViewController:alert animated:YES completion:nil];
                 }
             }else{ //<--- If Data Post failed
@@ -128,8 +115,6 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
                                               alertControllerWithTitle:@"Failed"
                                               message:@"Please Try Again"
                                               preferredStyle:UIAlertControllerStyleAlert];
-                
-                
                 UIAlertAction* yesButton = [UIAlertAction
                                             actionWithTitle:@"Ok"
                                             style:UIAlertActionStyleDefault
@@ -140,32 +125,27 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
                                                 //[self.navigationController popToRootViewControllerAnimated:YES];
                                                 
                                             }];
-                
-                
                 [alert addAction:yesButton];
-                
                 [self presentViewController:alert animated:YES completion:nil];
             }
-            
         }];
      }
     }
 ```
-    
-    
+
 # UIPickerview in Alertview ==> IOS 8.0 and Above
 
 ==>    *//In .h file* 
 ```
-    @interface AddDetailViewController : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate
+@interface AddDetailViewController : UIViewController<UIPickerViewDataSource,UIPickerViewDelegate
 ```    
 ==>    //In .m file open pickerview on Buttonclick
 ```
-    - (IBAction)btnCategory:(UIButton *)sender {
+- (IBAction)btnCategory:(UIButton *)sender {
     [_txtTitle resignFirstResponder];
     [_txtPrice resignFirstResponder];
     //Declare Alertview
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Select category" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Select category" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
     //Declare pickerview
     UIPickerView * pickerView = [[UIPickerView alloc] init];
     [pickerView setDataSource: self];
@@ -177,23 +157,23 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
     [alert addSubview:pickerView];
     [alert setValue:pickerView forKey:@"accessoryView"];
     [alert show];
-    }
+}
 ```    
 ==>    #pragma mark --> UIPickeriew Delegate
 ```
-    -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+ -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
     return 1; //Component in pickerview
-    }
+}
     // Total rows in our component.
-    -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-     if (pickerView.tag==1) {
+ -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    if (pickerView.tag==1) {
         return [categoryArray count];
     }
     else
         return [SubcategoryArray count];
     }
     // Display each row's data.
-    -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     if (pickerView.tag==1) {
         return [categoryArray objectAtIndex: row];
     }
@@ -201,7 +181,7 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
         return [SubcategoryArray objectAtIndex:row];
     }
     // Do something with the selected row.
-    -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     if (pickerView.tag==1) {
         _txtCategory.text=[categoryArray objectAtIndex:row];
     }
