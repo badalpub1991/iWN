@@ -26,7 +26,7 @@ CustomCell:-
     Note :- Cell is Maintableviewcell //Custom cell
 
 
-Json Call:-
+Json Call:-(GET)
 
     NSString *path= [[NSBundle mainBundle] pathForResource:@"New Data" ofType:@"json"];
      NSData *data = [[NSData alloc]initWithContentsOfFile:path];
@@ -45,6 +45,112 @@ Another Way ====>
     //Get Data in Dictionary
     NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     arryJsonResponce = [[NSMutableArray alloc]initWithArray:[jsonDic objectForKey:@"data"]];
+    
+    
+Json Call:- (POST)   
+
+    -(void)btnreplaycommonmethod
+    {
+     if   ([_txtAnswerStory.text isEqualToString:@""] )    { //if Text Field is Empty Validation measure
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        
+        // Configure for text only and offset down
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"Fill answer";
+        hud.margin = 10.f;
+        hud.yOffset = 150.f;
+        hud.removeFromSuperViewOnHide = YES;
+        
+        [hud hide:YES afterDelay:1];
+        
+    }
+    else //If textfield have Text then Post Request --
+    {
+        //Hud start to Show
+        hudobj = [[MBProgressHUD alloc] initWithView:self.view];
+        [hudobj setLabelText:@""];
+        hudobj.dimBackground = YES;
+        hudobj.mode =MBProgressHUDModeIndeterminate;
+        [self.view addSubview:hudobj];
+        [hudobj show:YES];
+        
+        NSString *url = [kPredefinedURL stringByAppendingPathComponent:kAnswerStory]; //Joint string and made url 
+        NSString *body = [NSString stringWithFormat:@"answer=%@&your_fb_id=%@&your_fbname=%@&story_id=%@&post_user_fb_id=%@&noti_id=%@",self.txtAnswerStory.text,_objappDelegate.FbId,_objappDelegate.FbName,StoryId,post_user_fb_id,Notificationid]; //Parameter for Post
+        
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]];//Pass Whole URL
+        [request setHTTPMethod:@"POST"]; //Service Name
+        [request setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+            if (data.length > 0) { //<--If datalength is not 0
+                [hudobj hide:YES];
+                [hudobj removeFromSuperViewOnHide];
+                NSDictionary *dict =[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                if ([dict[@"status"] integerValue] == 1) { //<-- get status 1 if data post successfully
+                    
+                    
+                    UIAlertController * alert=   [UIAlertController
+                                                  alertControllerWithTitle:@"Success"
+                                                  message:@"Thank You"
+                                                  preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    
+                    UIAlertAction* yesButton = [UIAlertAction
+                                                actionWithTitle:@"Ok"
+                                                style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action)
+                                                {
+                                                    //Handel your yes please button action here
+                                                    [alert dismissViewControllerAnimated:YES completion:nil];
+                                                    for (UIViewController *controller in self.navigationController.viewControllers) {
+                                                        
+                                                        //Do not forget to import AnOldViewController.h
+                                                        if ([controller isKindOfClass:[NotificationViewController class]]) {
+                                                            
+                                                            [self.navigationController popToViewController:controller
+                                                                                                  animated:YES];
+                                                            break;
+                                                        }
+                                                    }
+                                                    
+                                                }];
+                    
+                    
+                    [alert addAction:yesButton];
+                    
+                    [self presentViewController:alert animated:YES completion:nil];
+                }
+            }else{ //<--- If Data Post failed
+                [hudobj hide:YES];
+                [hudobj removeFromSuperViewOnHide];
+                UIAlertController * alert=   [UIAlertController
+                                              alertControllerWithTitle:@"Failed"
+                                              message:@"Please Try Again"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+                
+                
+                UIAlertAction* yesButton = [UIAlertAction
+                                            actionWithTitle:@"Ok"
+                                            style:UIAlertActionStyleDefault
+                                            handler:^(UIAlertAction * action)
+                                            {
+                                                //Handel your yes please button action here
+                                                [alert dismissViewControllerAnimated:YES completion:nil];
+                                                //[self.navigationController popToRootViewControllerAnimated:YES];
+                                                
+                                            }];
+                
+                
+                [alert addAction:yesButton];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            
+        }];
+     }
+    }
+
     
     
 UIPickerview in Alertview ==> IOS 8.0 and Above
