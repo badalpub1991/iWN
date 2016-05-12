@@ -18,6 +18,55 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
 
 
 
+# Customcell for UICollectionView
+
+//In viewdidload
+
+    [self.aCollectionView registerClass:[ProductViewCell class] forCellWithReuseIdentifier:@"ProductViewCell"];
+    [self.aCollectionView registerNib:[UINib nibWithNibName:@"ProductViewCell" bundle:nil]//RegisterCell forCellWithReuseIdentifier:@"ProductViewCell"];
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];//Custom Flowlayout
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    float ratio = self.aCollectionView.frame.size.width/3;
+    [flowLayout setItemSize:CGSizeMake(ratio, ratio)];
+    [flowLayout setMinimumInteritemSpacing:0];
+    [flowLayout setMinimumLineSpacing:0];
+    
+    #pragma mark - UICollectionView Datasource
+     // 1
+     - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+       return 12;
+       }
+     // 2
+    - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+    return 1;
+      }
+    // 3
+    - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+     ProductViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"ProductViewCell" forIndexPath:indexPath];
+     if (cell == nil) {
+        NSArray *xib = [[NSBundle mainBundle] loadNibNamed:@"ProductViewCell" owner:self options:nil];
+        cell = [xib objectAtIndex:0];
+     }
+    
+    cell.key.text = [NSString stringWithFormat:@"%ld",(long)indexPath.item+1];    
+    return cell;
+    }
+    
+     #pragma mark – UICollectionViewDelegateFlowLayout
+
+     // 1
+    - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    float width = collectionView.frame.size.width/3;//120
+    float height = collectionView.frame.size.height/4;//120
+    return CGSizeMake(width-17,height-14);
+    }
+
+    // 3
+    - (UIEdgeInsets)collectionView:
+    (UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(14.0, 14.0, 0.0, 14.0);
+    }    
 
 # CustomCell for UITableview:-
 
