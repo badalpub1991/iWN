@@ -254,7 +254,52 @@ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Select category" messa
     else
         _txtSubcategory.text=[SubcategoryArray objectAtIndex:row];
     }
-```
+```    
+    
+   
+#    Dictionary For loop Easily
+
+
+     
+     - (void)FilterData{
+    [list removeAllObjects];
+    if ([self.title isEqualToString:@"Songs"]) {
+        for (NSDictionary *category in [AppDelegate mainDelegate].allData) {
+            for (NSDictionary *subcategory in [category objectForKey:@"Sub_category"]) {
+                [list addObjectsFromArray:[subcategory valueForKey:@"songs"]];
+            }
+        }
+    }else if ([self.title isEqualToString:@"Categories"]) {
+        for (NSDictionary *category in [AppDelegate mainDelegate].allData) {
+           [list addObject:category];
+        }
+    }else if ([self.title isEqualToString:@"Favorite"]) {
+        self.FavButton.hidden = YES;
+        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"lyrics_id" ascending:YES];
+        [list addObjectsFromArray:[[AppDelegate mainDelegate].favorites sortedArrayUsingDescriptors:@[sd]]];
+    }else{
+        if (self.isSubCategory) {
+            for (NSDictionary *category in [AppDelegate mainDelegate].allData) {
+                if ([self.title isEqualToString:[category objectForKey:@"cat_name_hr"]]) {
+                    [list addObjectsFromArray:[category valueForKey:@"Sub_category"]];
+                    break;
+                }
+            }
+        }else{
+            for (NSArray *array in [[AppDelegate mainDelegate].allData valueForKey:@"Sub_category"]) {
+                for (NSDictionary *Sub_category in array) {
+                    if ([self.title isEqualToString:[Sub_category objectForKey:@"sub_cat_name_hr"]]) {
+                        [list addObjectsFromArray:[Sub_category valueForKey:@"songs"]];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    all = [[NSMutableArray alloc] initWithArray:list];
+    [self.listTable reloadData];
+     }
+
 
 
 
