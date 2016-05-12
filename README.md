@@ -299,6 +299,24 @@ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Select category" messa
     all = [[NSMutableArray alloc] initWithArray:list];
     [self.listTable reloadData];
      }
+     
+     
+#  Check Button with Background Image
+```
+      //Also helpful for check in and out buttom
+    - (IBAction)Tick:(id)sender{
+    if ([[self.Tick imageForState:UIControlStateNormal] isEqual:[UIImage imageNamed:@"check"]]) {
+        [self.Tick setImage:[UIImage imageNamed:@"uncheck"] forState:UIControlStateNormal];
+        [self.Go setEnabled:NO];
+    }else{
+        [self.Tick setImage:[UIImage imageNamed:@"check"] forState:UIControlStateNormal];
+        [self.Go setEnabled:YES];
+    }
+    
+     [[NSUserDefaults standardUserDefaults] setBool:self.Go.enabled forKey:@"Verified"];
+     [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+```     
 
 
 
