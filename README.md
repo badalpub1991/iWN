@@ -80,17 +80,32 @@ http://s000.tinyupload.com/index.php?file_id=09244370693754424466
 
 5) Go to main view controller and register cell into viewdidload or regiser cell from xib in Datasource method. 
 
-6)    //Create custom cell
+6)    //Create custom cell. with NIB (.XIB)
 ```
 static NSString *MainTableIdentifier = @"MainTableIdentifier";
 cell = [tableView dequeueReusableCellWithIdentifier:MainTableIdentifier];
 if (cell == nil)
 {
  NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainViewTableViewCell" owner:self options:nil];
- cell = [nib objectAtIndex:0];
+ cell = [nib objectAtIndex:0]; }
 
     Note :- Cell is Maintableviewcell //Custom cell
+``` 
+       //Customcell without NIB (When you used Custom Cell in UITableviewStoryboard iTself)
 ```
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *simpleTableIdentifier = @"HomeTableViewCell";
+   HomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    if (cell == nil) {
+        cell = [[HomeTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+    cell.lbl.text=[list objectAtIndex:indexPath.row];
+    cell.imgView.image=[UIImage imageNamed:[Thumbnails objectAtIndex:indexPath.row]];
+    return cell;
+}
+```
+ 
+     
 
 # Json Call:-(GET)
 ```
