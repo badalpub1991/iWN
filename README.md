@@ -3,10 +3,16 @@
 # Predefined Macros to save time 
 
 ==>    *Constant.h file*
+<br />
     1) ``` #define ViewcontrollerObject(storyboardname,UIViewController,viewController) UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:(storyboardname) bundle:[NSBundle mainBundle]];UIViewController *detailViewController= [storyBoard instantiateViewControllerWithIdentifier:viewController]```
-  Use :- ViewcontrollerObject(@"Main", DetailViewController, @"DetailViewController");
+    
+    
+    
+ <br /> Use :- ViewcontrollerObject(@"Main", DetailViewController, @"DetailViewController");
          --> Main Is StoryboardName , Detailviewcontroler is UIViewcontroller (Interface) , @"DetailViewController" is identifier in storyboard
-    2) ``` #define Accessappdelegate  ((AppDelegate*)[[UIApplication sharedApplication] delegate]) ```
+        
+      
+<br /> 2) ``` #define Accessappdelegate  ((AppDelegate*)[[UIApplication sharedApplication] delegate]) ```
      
    
 
